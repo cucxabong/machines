@@ -46,6 +46,7 @@ in
     granted-with-fish
     nixpkgs-fmt
     devenv
+    stern
   ];
 
   home.file = { };
