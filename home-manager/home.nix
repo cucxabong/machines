@@ -47,6 +47,8 @@ in
     nixpkgs-fmt
     devenv
     stern
+    terraform
+    kubie
   ];
 
   home.file = { };
