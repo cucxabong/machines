@@ -49,6 +49,7 @@ in
     stern
     terraform
     kubie
+    actionlint
   ];
 
   home.file = { };
