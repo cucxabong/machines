@@ -32,6 +32,28 @@ let
       };
     };
   };
+
+  system = builtins.currentSystem;
+  extensions =
+    (
+      (import (builtins.fetchGit {
+        url = "https://github.com/nix-community/nix-vscode-extensions";
+        ref = "refs/heads/master";
+        rev = "4ef033412f0732794077fcc25af4f79f097ad1e1";
+      })).extensions.${system}
+    ).forVSCodeVersion "1.96.0";
+
+
+  vscode_extensions = with extensions.vscode-marketplace;
+    [
+      exiasr.hadolint
+      arahata.linter-actionlint
+      jnoortheen.nix-ide
+      hashicorp.terraform
+      github.copilot
+      github.vscode-github-actions
+      golang.go
+    ];
 in
 {
   home.username = "quan.hoang";
@@ -50,6 +72,7 @@ in
     terraform
     kubie
     actionlint
+    hadolint
   ];
 
   home.file = { };
@@ -63,14 +86,7 @@ in
   programs.vscode = {
     enable = true;
     mutableExtensionsDir = false;
-    extensions =
-      with pkgs.vscode-extensions; [
-        jnoortheen.nix-ide
-        hashicorp.terraform
-        github.copilot
-        github.copilot-chat
-        github.vscode-github-actions
-      ];
+    extensions = vscode_extensions;
 
     userSettings = vscode_settings.editor // vscode_settings.nix // vscode_settings.files // vscode_settings.terraform;
   };
